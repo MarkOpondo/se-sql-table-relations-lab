@@ -7,7 +7,7 @@ import pandas as pd
 # Connect to the database
 conn = sqlite3.connect('data.sqlite')
 
-pd.read_sql("""SELECT * FROM sqlite_master""", conn)
+# pd.read_sql("""SELECT * FROM sqlite_master""", conn)
 
 # STEP 1
 # Replace None with your code
@@ -63,6 +63,6 @@ df_customers = None
 df_under_20 = None
 
 # print(pd.read_sql("""SELECT * FROM offices""", conn))
-print(pd.read_sql(df_zero_emp, conn))
+# print(df_zero_emp)
 
 conn.close()
