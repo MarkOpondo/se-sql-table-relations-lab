@@ -11,24 +11,26 @@ pd.read_sql("""SELECT * FROM sqlite_master""", conn)
 
 # STEP 1
 # Replace None with your code
-df_boston = pd.read_sql("""
+boston = """
 SELECT firstName, lastName, jobTitle
 FROM employees
 JOIN offices
     USING(officeCode)
 WHERE city = "Boston"
-""", conn)
+"""
+df_boston = pd.read_sql(boston, conn)
 
 # STEP 2
 # Replace None with your code
-df_zero_emp = pd.read_sql("""
+zero_emp = """
 SELECT *
 FROM offices
 JOIN employees 
     USING(officeCode)
 GROUP BY officeCode
 HAVING COUNT(employeeNumber) = 0
-""", conn)
+"""
+df_zero_emp = pd.read_sql(zero_emp, conn)
 
 # STEP 3
 # Replace None with your code
