@@ -55,7 +55,13 @@ ORDER BY c.contactLastName ASC
 
 # STEP 5
 # Replace None with your code
-df_payment = None
+df_payment = pd.read_sql("""
+SELECT c.contactFirstName, c.contactLastName, p.paymentDate, p.amount
+FROM customers c
+JOIN payments p
+    USING(customerNumber) 
+ORDER BY p.amount DESC
+""", conn)
 
 # STEP 6
 # Replace None with your code
@@ -78,6 +84,6 @@ df_customers = None
 df_under_20 = None
 
 # print(pd.read_sql("""SELECT * FROM offices""", conn))
-print(df_contacts)
+print(df_payment)
 
 conn.close()
