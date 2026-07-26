@@ -12,7 +12,7 @@ conn = sqlite3.connect('data.sqlite')
 # STEP 1
 # Replace None with your code
 df_boston = pd.read_sql("""
-SELECT firstName, lastName, jobTitle
+SELECT firstName, lastName
 FROM employees
 JOIN offices
     USING(officeCode)
