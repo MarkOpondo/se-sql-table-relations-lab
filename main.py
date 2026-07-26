@@ -56,11 +56,11 @@ ORDER BY c.contactLastName ASC
 # STEP 5
 # Replace None with your code
 df_payment = pd.read_sql("""
-SELECT c.contactFirstName, c.contactLastName, p.paymentDate, p.amount
+SELECT c.contactFirstName, c.contactLastName, p.paymentDate, CAST(p.amount AS REAL) AS amount
 FROM customers c
 JOIN payments p
     USING(customerNumber) 
-ORDER BY p.amount DESC
+ORDER BY amount DESC
 """, conn)
 
 # STEP 6
