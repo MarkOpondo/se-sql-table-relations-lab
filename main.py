@@ -21,7 +21,15 @@ WHERE city = "Boston"
 
 # STEP 2
 # Replace None with your code
-df_zero_emp = None
+df_zero_emp = """
+SELECT *
+FROM offices
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM employees
+    WHERE employees.officeCode = offices.officeCode 
+)
+"""
 
 # STEP 3
 # Replace None with your code
@@ -56,6 +64,6 @@ df_customers = None
 df_under_20 = None
 
 # print(pd.read_sql("""SELECT * FROM offices""", conn))
-print(pd.read_sql(df_boston, conn))
+print(pd.read_sql(df_zero_emp, conn))
 
 conn.close()
