@@ -11,7 +11,13 @@ pd.read_sql("""SELECT * FROM sqlite_master""", conn)
 
 # STEP 1
 # Replace None with your code
-df_boston = None
+df_boston = """
+SELECT firstName, lastName, jobTitle
+FROM employees
+JOIN offices
+    USING(officeCode)
+WHERE city = "Boston"
+"""
 
 # STEP 2
 # Replace None with your code
@@ -48,5 +54,8 @@ df_customers = None
 # STEP 10
 # Replace None with your code
 df_under_20 = None
+
+# print(pd.read_sql("""SELECT * FROM offices""", conn))
+print(pd.read_sql(df_boston, conn))
 
 conn.close()
