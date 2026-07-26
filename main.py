@@ -32,11 +32,26 @@ HAVING COUNT(employeeNumber) = 0
 
 # STEP 3
 # Replace None with your code
-df_employee = None
+df_employee = pd.read_sql("""
+SELECT e.employeeNumber, e.firstName, e.lastName, o.city
+FROM employees e
+JOIN offices o 
+    USING(officeCode)
+ORDER BY e.firstName , e.lastName;
+""", conn)
 
 # STEP 4
 # Replace None with your code
-df_contacts = None
+df_contacts = pd.read_sql("""
+SELECT c.contactFirstName, c.contactLastName, c.phone, c.salesRepEmployeeNumber
+FROM customers c
+WHERE NOT EXISTS(
+    SELECT 1
+    FROM orders o
+    WHERE c.customerNumber = o.customerNumber                          
+)
+ORDER BY c.contactLastName ASC
+""", conn)
 
 # STEP 5
 # Replace None with your code
@@ -63,6 +78,6 @@ df_customers = None
 df_under_20 = None
 
 # print(pd.read_sql("""SELECT * FROM offices""", conn))
-# print(df_zero_emp)
+print(df_contacts)
 
 conn.close()
