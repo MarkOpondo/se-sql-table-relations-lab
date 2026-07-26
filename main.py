@@ -24,11 +24,10 @@ WHERE city = "Boston"
 df_zero_emp = """
 SELECT *
 FROM offices
-WHERE NOT EXISTS (
-    SELECT 1
-    FROM employees
-    WHERE employees.officeCode = offices.officeCode 
-)
+JOIN employees 
+    USING(officeCode)
+GROUP BY officeCode
+HAVING COUNT(employeeNumber) = 0
 """
 
 # STEP 3
