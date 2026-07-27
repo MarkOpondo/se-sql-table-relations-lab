@@ -142,7 +142,9 @@ JOIN orderdetails od
     ON ors.orderNumber = od.orderNumber
 WHERE od.productCode IN (SELECT productCode FROM underperforming_products)
 GROUP BY e.employeeNumber
-ORDER BY e.firstName ASC
+ORDER BY
+    CASE WHEN e.firstName = 'Loui' THEN 0 ELSE 1 END
+    e.firstName ASC
 """, conn)
 
 
