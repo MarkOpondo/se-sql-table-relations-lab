@@ -110,7 +110,7 @@ ON o.officeCode = e.officeCode
 JOIN customers c
 ON e.EmployeeNumber = c.salesRepemployeeNumber
 GROUP BY o.officeCode, o.city
-ORDER BY n_customers DESC
+ORDER BY o.city ASC
 """, conn)
 
 # STEP 10
