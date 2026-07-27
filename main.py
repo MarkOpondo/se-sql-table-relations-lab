@@ -66,11 +66,17 @@ ORDER BY amount DESC
 # STEP 6
 # Replace None with your code
 df_credit = pd.read_sql("""
-SELECT e.firstName, e.lastName, SUM(c.creditLimit) AS totalCredit, COUNT(c.customerNumber) AS numCustomers
+SELECT 
+    e.employeeNumber, 
+    e.firstName, 
+    e.lastName, 
+    COUNT(c.customerNumber) AS numCustomers
 FROM employees e
-JOIN customers c ON e.employeeNumber = c.salesRepEmployeeNumber
+JOIN customers c 
+    ON e.employeeNumber = c.salesRepEmployeeNumber
 GROUP BY e.employeeNumber
-ORDER BY totalCredit DESC;
+HAVING AVG(CAST(c.creditLimit AS REAL)) > 90000
+ORDER BY numCustomers DESC;
 """, conn)
 
 # STEP 7
@@ -90,6 +96,6 @@ df_customers = None
 df_under_20 = None
 
 # print(pd.read_sql("""SELECT * FROM offices""", conn))
-print(df_payment)
+print(df_credit)
 
 conn.close()
