@@ -65,7 +65,13 @@ ORDER BY amount DESC
 
 # STEP 6
 # Replace None with your code
-df_credit = None
+df_credit = pd.read_sql("""
+SELECT e.firstName, e.lastName, SUM(c.creditLimit) AS totalCredit, COUNT(c.customerNumber) AS numCustomers
+FROM employees e
+JOIN customers c ON e.employeeNumber = c.salesRepEmployeeNumber
+GROUP BY e.employeeNumber
+ORDER BY totalCredit DESC;
+""", conn)
 
 # STEP 7
 # Replace None with your code
