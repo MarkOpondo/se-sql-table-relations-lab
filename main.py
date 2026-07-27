@@ -115,9 +115,63 @@ ORDER BY o.city ASC
 
 # STEP 10
 # Replace None with your code
-df_under_20 = None
+df_under_20 = pd.read_sql("""           
+WITH underperforming_products AS (
+    -- Step 1: Find all products ordered by fewer than 20 distinct customers
+    SELECT od.productCode
+    FROM orderdetails od
+    JOIN orders o ON od.orderNumber = o.orderNumber
+    GROUP BY od.productCode
+    HAVING COUNT(DISTINCT o.customerNumber) < 20
+)
+-- Step 2: Grab the unique 5-column employee data who sold these specific items
+SELECT 
+    e.employeeNumber, 
+    e.firstName, 
+    e.lastName, 
+    o.city, 
+    e.officeCode
+FROM employees e
+JOIN offices o 
+    ON e.officeCode = o.officeCode                      
+JOIN customers c 
+    ON e.employeeNumber = c.salesRepEmployeeNumber
+JOIN orders ors 
+    ON c.customerNumber = ors.customerNumber
+JOIN orderdetails od 
+    ON ors.orderNumber = od.orderNumber
+WHERE od.productCode IN (SELECT productCode FROM underperforming_products)
+GROUP BY e.employeeNumber
+ORDER BY e.firstName ASC
+""", conn)
 
+
+# SELECT e.employeeNumber, e.firstName, e.lastName, o.city, e.officeCode, od.quantityOrdered
+# FROM employees e
+# JOIN offices o
+# ON e.officeCode = o.officeCode                      
+# JOIN customers c
+# ON e.employeeNumber = c.salesRepEmployeeNumber
+# JOIN orders ors
+# ON c.customerNumber = ors.customerNumber
+# JOIN orderdetails od
+# ON ors.orderNumber = od.orderNumber
+# JOIN products p
+# ON od.productCode = p.productCode
+# WHERE CAST(od.quantityOrdered AS REAL) < 20    
+# GROUP BY p.productCode
+# ORDER BY CAST(od.quantityOrdered AS REAL) DESC  
+
+
+
+# SELECT p.productName, od.quantityOrdered
+# FROM products p
+# JOIN orderdetails od
+#     ON p.productCode = od.productCode
+# GROUP BY p.productName
+# HAVING CAST(od.quantityOrdered AS REAL) < 20
 # print(pd.read_sql("""SELECT * FROM offices""", conn))
-print(df_customers)
+
+print(df_under_20)
 
 conn.close()
